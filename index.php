@@ -53,10 +53,22 @@ function downloadFile(id) {
 	//no cacheing as well as forcing a client download.
 	//The actual data in download.php is a plaintext version of the file you are requesting
 }
+function prepImage(id, name) {
+	if(!$("#overlay").is(":visible")) {
+		$.ajax({
+			type: "POST",
+			url: "ajaxPreview.php",
+			data: {"name": name},
+			success: function(msg) {
+				lightbox(id);
+			}
+		});
+	}
+}
 function lightbox(id) {
 
 
-	$("#lightImg").attr('src', '/preview/' + id + '.jpg');
+	$("#lightImg").attr('src', 'preview.jpg?id=' + id);
 	
 
 	$("#overlay").fadeIn(300, function() {
@@ -119,7 +131,7 @@ function hideLightbox() {
 			<span class="fRight"><? echo (round(intval($r_file_size)/1048576, 2))." MB";?>
 			<a class="spanLink nobubble" href="javascript:downloadFile(<?=$r_id;?>)">Download</a>
 			<? if($r_has_preview) { ?>
-			<a class="spanLink nobubble" href="javascript:lightbox(<?=$r_id;?>);">Preview</a>
+			<a class="spanLink nobubble" href="javascript:prepImage(<?=$r_id;?>, '<?=$r_file_name;?>');">Preview</a>
 			<? } ?>
 			</span>
 			<br>

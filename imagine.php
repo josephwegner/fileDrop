@@ -1,13 +1,25 @@
 <?
-function makePreview($id, $full_path) {
+$available_extensions = Array();
+	array_push($available_extensions, "jpeg");
+	array_push($available_extensions, "jpg");
+	array_push($available_extensions, "png");
+	array_push($available_extensions, "bmp");
+	array_push($available_extensions, "gif");
+	array_push($available_extensions, "ai");
+	array_push($available_extensions, "pdf");
+	array_push($available_extensions, "ps");
+	array_push($available_extensions, "psd");
+	array_push($available_extensions, "tif");
+	array_push($available_extensions, "eps");
+
+function makePreview($full_path) {
 	global $previewDir;
 
-	$newPath = $previewDir.$id.".jpg";
 
 	$filename = basename($full_path);
 
 	$ext = get_ext($filename); //get extension
-	$worked = convert($full_path, $newPath, $ext);
+	$worked = convert($full_path, $ext);
 
 	return $worked;
 }
@@ -15,14 +27,14 @@ function makePreview($id, $full_path) {
 function get_ext($file) {
 	$pos = strpos($file, ".");
 	$extension  = substr($file, $pos + 1);
-	return $extension;
+	return strtolower($extension);
 }
 
-function convert($path, $newPath, $extension) {
+function convert($path, $extension) {
 	$success = true;//Initialize
+	$newPath = "preview.jpg";
 
 	switch($extension) {
-		
 		case "jpeg":
 			$cmd = "convert ".$path." -resize 350x350\> ".$newPath;
 			exec($cmd);			
@@ -78,9 +90,6 @@ function convert($path, $newPath, $extension) {
 			exec($cmd);
 			break;
 	
-		case "xcf":
-
-		break;
 	
 		default:
 			$success = false;//No compatible extensions

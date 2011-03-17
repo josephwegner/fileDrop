@@ -36,7 +36,6 @@ Extract into your document root (or whatever directory you want it to be in).
 
 Create a directory somewhere on your computer for the uploaded files to go. I tend to think this is best off NOT a directory available via the web - that way every idiot on the internet can't access the files.  Make sure to give your web server user (www-data) read/write permissions on this folder.
 
-Create a directory in your /www (or /htdocs...  or wtv your webserver directory is) that will contain your preview images.  Alternatively, you can create a folder outside of your web directory, and add a <Directory> line in your apache configuration.  
 
 Import barebones.sql into your MySQL.  The code to do this should look like this:
 

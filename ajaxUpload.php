@@ -32,7 +32,7 @@
 
 	$preview = makePreview($id, $uploadDir.$file);
 
-	if($preview) {
+	if(in_array(get_ext(basename($file)), $available_extensions)) {
 		$sql = "UPDATE files SET `has_preview`=1 WHERE `id`=".$id;
 		mysql_query($sql);
 	}	
