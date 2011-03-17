@@ -27,7 +27,7 @@ ImageMagick
 
 Main testing was done on Chromium 10.0.648.  Finished version should work on all browsers after IE7.
 
-Certain features require Adobe Flash to be installed, but the finished version will degrade gracefully.y
+Certain features require Adobe Flash to be installed, but the finished version will degrade gracefully.
 
 As of 3-16-11 fileDrop has been tested on all current browsers and appears to be working.   That said, fileDrop is in no way near completion, and it is very likely that future features will break in other browsers (mainly IE).  As I get farther into the project I will do periodic browser fixes - so be patient.  Or...  You could debug them yourselves and put in a pull request. 
 Install:

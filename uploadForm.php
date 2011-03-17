@@ -27,7 +27,7 @@ $(document).ready(function() {
 		$("#swfupload-control").swfupload({
 			upload_url: "upload.php",
 			file_post_name: "uploadfile",
-			file_size_limit : "5000 MB",//4GB
+			file_size_limit : "4096 MB",//4GB
 			file_upload_limit: 10,//Don't really like this
 			flash_url : "flash/swfupload.swf",
 			button_width: 75,
