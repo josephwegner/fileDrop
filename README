@@ -1,0 +1,70 @@
+This project all began because the prepress department my work is stuck with old, boring FTP, which is not very useful on the customer side.  Turns out there isn't any really great software out there for a client to "drop" a file for someone to work on.  fileDrop should provide the extended features that standard FTP lacks, and provide functionality useful to the business world.
+
+Features:
+
+-Visible progress for uploads
+-Batch uploads
+-Uploads categorized by group (company?)
+-Metadata fields linked to each file, and optionally viewed on the download screen.
+-Multiple clients (users) can upload to a single group (company).
+-Open registration with unique group code allows outsourced designers to upload files.
+-Realtime drop notifications on the business end.
+-Email notifications linked to specific business-end contacts, as well as group admins.
+-Group admins can block downloads, uploads, or view from the group members.
+
+Prereq's:
+
+fileDrop was programmed on Ubuntu Linux 10.04 running a LAMP server.
+
+Apache - v2.2.14
+PHP - v5
+MySql - v5.1.41
+
+Extensions:
+
+ImageMagick
+
+
+Main testing was done on Chromium 10.0.648.  Finished version should work on all browsers after IE7.
+
+Certain features require Adobe Flash to be installed, but the finished version will degrade gracefully.y
+
+As of 3-16-11 fileDrop has been tested on all current browsers and appears to be working.   That said, fileDrop is in no way near completion, and it is very likely that future features will break in other browsers (mainly IE).  As I get farther into the project I will do periodic browser fixes - so be patient.  Or...  You could debug them yourselves and put in a pull request. 
+Install:
+
+Extract into your document root (or whatever directory you want it to be in).
+
+Create a directory somewhere on your computer for the uploaded files to go. I tend to think this is best off NOT a directory available via the web - that way every idiot on the internet can't access the files.  Make sure to give your web server user (www-data) read/write permissions on this folder.
+
+Create a directory in your /www (or /htdocs...  or wtv your webserver directory is) that will contain your preview images.  Alternatively, you can create a folder outside of your web directory, and add a <Directory> line in your apache configuration.  
+
+Import barebones.sql into your MySQL.  The code to do this should look like this:
+
+/**************SAMPLE CODE***************/
+
+cd <webserver root>
+mysql -u <username> -p -h <sqlserver hostname>
+create database <database name>;
+exit
+
+mysql -u <username> -p -h <sqlserver hostname> <database name> < barebones.sql
+
+/***************************************/
+
+Set up your config.php file.  Further instructions can be found inside of the config file.
+
+Open up a web browser and go to browse to the directory that you uploaded the files.  Click Register and create yourself an admin user.  The group code is admin
+
+Secure your administration group and give your user rights using this code:
+
+/**************SAMPLE CODE**************/
+
+mysql -u <username> -p <database>
+
+UPDATE `users` SET `can_download`=1
+UPDATE `groups` SET `code`=<secret code>
+
+/***************************************/
+
+
+Alright!  Your installation is complete.  Sorry this is such an ugly procedure - eventually I will have it scripted.
