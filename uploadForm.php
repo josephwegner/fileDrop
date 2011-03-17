@@ -17,6 +17,8 @@ $ses_user = mysql_fetch_array($data);
 <script type="text/javascript" src="flash/jquery.swfupload.js"></script>
 <script type="text/javascript" src="flash/swfupload.js"></script>
 <script type="text/javascript">
+noFlash = false;
+flashName = "";
 var curFile = 0;//don't think this is used...
 $(document).ready(function() {
 
@@ -34,6 +36,7 @@ $(document).ready(function() {
 			button_height: 25,
 			button_placeholder : $("#button")[0],
 			button_image_url : "flash/button.png",
+			swfupload_load_failed_handler : swfUploadLoadFailed,
 			debug: false//what does this do?
 		});
 	}
@@ -87,6 +90,7 @@ function listFile(event, file) {
 	var name = file.name;
 	var size = (Math.round((file.size/1048576) * 100)) / 100;//1048576 is 1MB in bytes
 
+
 	
 	if($("#log").html() == "No Files are Selected")
 		$("#log").html("");//if #log is empty
@@ -119,10 +123,16 @@ function sendData(file, size) {
 }
 
 function startUpload() {
-	
-	$("#menu").slideUp(300, function() {
-		$("#swfupload-control").swfupload('startUpload');//Go!
-	});
+	if(noFlash) {
+		sendData(flashName, 0)
+		$("#menu").slideUp(300, function() {
+			document.location.reload();
+		});	
+	} else {	
+		$("#menu").slideUp(300, function() {
+			$("#swfupload-control").swfupload('startUpload');//Go!
+		});
+	}
 }
 
 function customContactToggle() {
@@ -131,6 +141,37 @@ function customContactToggle() {
 	} else {
 		$("#menuContact").children("input:not(#customContact)").attr('disabled', 'disabled');
 	}
+}
+
+function prepNoFlashData() {
+	noFlash = true;
+
+	flashName = $("#uploadFile").val().replace(/\\/, "\\\\").replace(/^.*\\/, '');
+
+	$("#menu").slideDown(300);	
+}
+
+
+
+function swfUploadLoadFailed() {
+	$("#button").remove();
+	$("#button2").remove();
+	$("#swfupload-control").remove();
+	$("#log").remove();
+
+	html = "It appears that you have a problem with your flash.  You may need to";
+	html += "<a href='http://www.adobe.com/software/flash/about'>download flash.</a>";
+	html += "  If that doesn't work, there are some more ";
+	html += "<a href='http://kb2.adobe.com/cps/191/tn_19166.html'>troubleshooting tips</a>";
+	html += " available<br>";
+	html += "<form action='upload.php' enctype='multipart/form-data' target='fram' method='POST'>";
+	html += "<input type='file' id='uploadFile' name='uploadfile' />";
+	html += "<br><button class='button' onClick='prepNoFlashData();'>Upload</button>";
+	html += "</form><iframe id='fram' name='fram'></iframe>";
+
+	$("#wrapper").append(html);
+
+	noFlash = true;
 }
 function handleIE() {
 	$("#swfupload-control").swfupload({
@@ -143,6 +184,7 @@ function handleIE() {
 			button_height: 25,
 			button_placeholder : $("#button")[0],
 			button_image_url : "flash/button.png",
+			swfupload_load_failed_handler : swfUploadLoadFailed,
 			debug: false });
 
 	$("button").css({
@@ -187,7 +229,7 @@ function handleIE() {
 	</div>
 	<div id="header"><img src="flash/FileUpload-Logo.png" /></div>
 	<input type="button" id="button" />
-	<button style="margin-bottom: 10px;" onClick="$('#menu').slideDown(300);">Upload</button>
+	<button id="button2" style="margin-bottom: 10px;" onClick="$('#menu').slideDown(300);">Upload</button>
 
 	<div id="swfupload-control"></div>
 	<div id="log">No Files are Selected</div>
