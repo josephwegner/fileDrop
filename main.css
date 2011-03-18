@@ -264,4 +264,12 @@ iframe#fram {
 	top: 150px;
 	overflow: hidden;
 }
-	
+
+#loader {
+	height: 19px;
+	width: 220px;
+	position: absolute;
+	left: 50%;
+	margin-left: -110px;
+	top: 300px;
+}	

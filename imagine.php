@@ -66,17 +66,19 @@ function convert($path, $extension) {
 			break;
 	
 		case "pdf":
-			$cmd = "convert ".$path." -resize 350x350x\> -background white -flatten ".$newPath;
+			$cmd = "convert ".$path."[0] -resize 350x350x\> ".$newPath;
 			exec($cmd);
 			break;
 	
 		case "ps":
-			$cmd = "convert ".$path." -resize 350x350x\> -background white -flatten ".$newPath;
+			$cmd = "convert ".$path." -resize 350x350\> -background white -flatten ".$newPath;
 			exec($cmd);
 			break;
 	
 		case "psd":
-			$cmd = "convert ".$path." -resize 350x350x\> -background white -flatten ".$newPath;
+			$cmd = "convert ".$path."[0] ".$newPath;
+			exec($cmd);
+			$cmd = "convert ".$newPath." -resize 350x350\> ".$newPath;
 			exec($cmd);
 			break;
 

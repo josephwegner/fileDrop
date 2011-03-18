@@ -54,42 +54,51 @@ function downloadFile(id) {
 	//The actual data in download.php is a plaintext version of the file you are requesting
 }
 function prepImage(id, name) {
-	if(!$("#overlay").is(":visible")) {
-		$.ajax({
-			type: "POST",
-			url: "ajaxPreview.php",
-			data: {"name": name},
-			success: function(msg) {
-				lightbox(id);
-			}
-		});
-	}
+	$("#loader").show();
+	$("#overlay").fadeIn(300, function() {
+
+		if($("#loader").is(":visible")) {
+			$.ajax({
+				type: "POST",
+				url: "ajaxPreview.php",
+				data: {"name": name},
+				success: function(msg) {
+					lightbox(id);
+				}
+			});
+		}
+	});
 }
 function lightbox(id) {
-
-
+	
+	$("#loader").hide();
 	$("#lightImg").attr('src', 'preview.jpg?id=' + id);
 	
 
-	$("#overlay").fadeIn(300, function() {
-		$("#lightbox").show();
+	$("#lightbox").show();
+	setTimeout(function() {
 		wi = $("#lightImg").width();
 		hi = $("#lightImg").height();
 
+		console.log(wi);
+		console.log(hi);
+
 		max = (wi > hi) ? wi : hi;
 		max += 50;
-	
-	
-	$("#lightImg").css({
-		'margin-left': (max / 2) - (wi / 2),
-		'margin-top': (max / 2) - (hi / 2)
-	});
-	$("#lightbox").css('margin-left', (max / 2 * -1) + "px")
-	max += "px";
-		$("#lightbox").animate({'height': max}, 300, function() {
-			$("#lightbox").animate({'width': max}, 300);
+		
+		
+		$("#lightImg").css({
+			'margin-left': (max / 2) - (wi / 2),
+			'margin-top': (max / 2) - (hi / 2)
 		});
-	});
+		
+		$("#lightbox").css('margin-left', (max / 2 * -1) + "px")
+		max += "px";
+			$("#lightbox").animate({'height': max}, 300, function() {
+				$("#lightbox").animate({'width': max}, 300);
+			});
+	}, 50);
+	
 }
 function hideLightbox() {
 	$("#lightbox").animate({'width': '5px'}, 300, function() {
@@ -104,6 +113,7 @@ function hideLightbox() {
 <body>
 <? include "header.php"; ?>
 <div id="overlay">
+<img src="images/ajax-loader.gif" id="loader" />
 </div>	
 <div id="lightbox">
 	<img src="" id="lightImg" />
