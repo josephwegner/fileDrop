@@ -30,7 +30,6 @@ $(document).ready(function() {
 			upload_url: "upload.php",
 			file_post_name: "uploadfile",
 			file_size_limit : "4096 MB",//4GB
-			file_upload_limit: 10,//Don't really like this
 			flash_url : "flash/swfupload.swf",
 			button_width: 75,
 			button_height: 25,
@@ -195,6 +194,13 @@ function handleIE() {
 
 	setTimeout(function() { $(".swfupload").height('20px'); }, 100);
 }
+function showMenu() {
+	$("#menuDetails").children("input").val("");
+	$("#details").val("");
+	$("#menuDetails").css('margin-left', '0px');	
+
+	$("#menu").slideDown(300);
+}
 </script>
 
 </head>
@@ -229,7 +235,7 @@ function handleIE() {
 	</div>
 	<div id="header"><img src="flash/FileUpload-Logo.png" /></div>
 	<input type="button" id="button" />
-	<button id="button2" style="margin-bottom: 10px;" onClick="$('#menu').slideDown(300);">Upload</button>
+	<button id="button2" style="margin-bottom: 10px;" onClick="showMenu();">Upload</button>
 
 	<div id="swfupload-control"></div>
 	<div id="log">No Files are Selected</div>
