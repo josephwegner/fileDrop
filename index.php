@@ -112,9 +112,7 @@ function lightbox(id) {
 		wi = $("#lightImg").width();
 		hi = $("#lightImg").height();
 
-		console.log(wi);
-		console.log(hi);
-
+		
 		max = (wi > hi) ? wi : hi;
 		max += 50;
 		
