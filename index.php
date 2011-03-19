@@ -17,6 +17,14 @@ require_once("connect.php");
 	$sql = "SELECT * FROM files WHERE `group_id`=".$gid." ORDER BY `is_downloaded`, `upload_date`";
 	$data = mysql_query($sql);//Get current groups files
 
+	$sql = "SELECT `name` FROM groups WHERE `id`=".$gid;
+
+	$group_d = mysql_query($sql);
+
+	$group_p = mysql_fetch_array($group_d);
+
+	$group = $group_p['name'];
+
 	$num =  mysql_num_rows($data);
 	$offset = ($page - 1) * 20;
 
@@ -160,7 +168,7 @@ function hideLightbox() {
 </div>
 
 <div id="wrapper">
-	<div id="header2">File List</div>
+	<div id="header2">File List - <?=$group;?></div>
 	<div id="logSlideHold">
 		<div id="logHolder">
 			<div id="log2">

@@ -5,10 +5,21 @@
 require_once("connect.php");
 
 $uid = $_SESSION['user_id'];//get User ID from SESSION
+$gid = $_SESSION['gid'];
 $sql = "SELECT * FROM users WHERE `id`=".$uid;
 
 $data = mysql_query($sql);//Get user data
 $ses_user = mysql_fetch_array($data);
+
+$sql = "SELECT `name` FROM groups WHERE `id`=".$gid;
+
+$group_d = mysql_query($sql);
+
+$group_p = mysql_fetch_array($group_d);
+
+$group = $group_p['name'];
+
+
 
 ?>
 <title>File Uploader</title>
@@ -258,7 +269,7 @@ function showMenu() {
 			</div>
 		</div>
 	</div>
-	<div id="header"><img src="flash/FileUpload-Logo.png" /></div>
+	<div id="header">File Upload - <?=$group;?></div>
 	<input type="button" id="button" />
 	<button id="button2" style="margin-bottom: 10px;" onClick="showMenu();">Upload</button>
 
