@@ -12,7 +12,7 @@ $data = mysql_query($sql);
 ?>
 <title>Group Management</title>
 <link rel="stylesheet" type="text/css" href="main.css" />
-<script type="text/javascript" src="../scripts/jquery.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 function register() {
 	var group_name = $("#group_name").val();//Group Vars

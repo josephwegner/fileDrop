@@ -7,7 +7,7 @@ session_start();
 ?>
 <title>File Uploader</title>
 <link rel="stylesheet" type="text/css" href="main.css" />
-<script type="text/javascript" src="../scripts/jquery.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 

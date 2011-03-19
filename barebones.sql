@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-INSERT INTO `groups` (`name`, `code`, `open_register`, `admin_id`) VALUES ('administrators', 'admin', 0, 1);
+INSERT INTO `groups` (`name`, `code`, `open_register`, `admin_id`) VALUES ('administrators', 'admin', 1, 1);
 -- --------------------------------------------------------
 
 --
