@@ -96,9 +96,9 @@ function register() {
 	<div id="header">Login</div>
 	<div id="login">
 		<div class="loginHeader">Username</div>
-		<input type="text" id="username" name="username" /><br>
+		<input class="loginField" type="text" id="username" name="username" /><br>
 		<div class="loginHeader">Password</div>
-		<input type="password" id="password" name="password" /><br>
+		<input class="loginField" type="password" id="password" name="password" /><br>
 		<input type="submit" id="sub" name="sub" onClick="login(event);" />
 	</div>
 	<a id="registerLink" onClick="startRegister();">Register</a>
