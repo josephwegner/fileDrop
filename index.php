@@ -24,8 +24,11 @@ require_once("connect.php");
 		$page--;
 		$offset = ($page - 1) * 20;
 	}
-	mysql_data_seek($data, $offset);
-?>
+
+	if(mysql_num_rows($data))
+		mysql_data_seek($data, $offset);
+
+	?>
 <title>File List</title>
 <link rel="stylesheet" type="text/css" href="main.css" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
@@ -157,7 +160,7 @@ function hideLightbox() {
 			<? 
 			$cur = 1;
 			if(mysql_num_rows($data) < 1) { ?>
-			No Files are Currently Available
+			No Files are Currently Available<br>
 			<? } else { 
 				while(($row = mysql_fetch_array($data)) && $cur <= 20) {
 					extract($row, EXTR_PREFIX_ALL, "r");//Break array into seperate vars
@@ -198,12 +201,15 @@ function hideLightbox() {
 						<div class="clearboth"></div>
 					</div>
 				</div>
-				<center>
+				
 			<? $cur++;	}
 			}
+			echo "<center>";
 			if($offset > 0) 
 				echo "<a style='margin-right: 5px' class='spanLink nobubble' href='javascript:newPage(-1);'><--</a>";
-			echo $page." / ".(ceil($num / 20));
+			
+			$pgs = !$offset ? 1 : ceil($num / 20);
+			echo $page." / ".$pgs;
 			if($offset < ($num - 20))
 				echo "<a style='margin-left: 5px' class='spanLink nobubble' href='javascript:newPage(1);'>--></a>";
 			
