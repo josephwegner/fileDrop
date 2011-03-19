@@ -14,6 +14,21 @@ $data = mysql_query($sql);
 <link rel="stylesheet" type="text/css" href="main.css" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+	
+	$(".menuClose").mouseenter(function() {
+		$(this).css('background-color', '#112233');
+	});
+
+	$(".menuClose").mouseleave(function() {
+		$(this).css('background-color', '#172E45');
+	});
+	
+	$(".menuClose").click(function() {
+		$("#menu").slideUp(300);
+	});
+	
+});
 function register() {
 	var group_name = $("#group_name").val();//Group Vars
 	var open_register = $("#open_register").attr('checked') ? 1 : 0;
@@ -42,6 +57,15 @@ function register() {
 			}
 	});
 }
+
+function startCreate() {
+	$("#menuGroup").children("input").val("");
+	$("#menuContact").children("input").val("");
+
+	$("#menuGroup").css('margin-left', '0px');
+	
+	$("#menu").slideDown(300);
+}
 </script>
 
 </head>
@@ -51,7 +75,8 @@ function register() {
 	<div id="menu">
 		<div id="menuContents">
 			<div class="menuItem" id="menuGroup">
-				<span class="menuHeader">Group Details</span><br>
+				<span class="menuHeader">Group Details</span>
+				<span class="menuClose">X</span><br>
 				Group Name: 
 				<input type="text" id="group_name" style="margin-top: 100px; margin-bottom: 30px;" /><br>
 				Open Registration:
@@ -60,7 +85,8 @@ function register() {
 				<span onclick="$('#menuGroup').animate({'margin-left': '-500px'}, 500);" id="menuNext">Admin Info -></span><br>
 			</div>
 			<div class="menuItem" id="menuContact">
-				<span class="menuHeader">Admin Info</span><br>
+				<span class="menuHeader">Admin Info</span>
+				<span class="menuClose">X</span><br>
 				<div style="width: 80%; margin-top: 80px;" class="alignRight">
 					Username: <input type="text" id="user" name="user" /><br>
 					Password: <input type="password" id="password" name="password" /><br>
@@ -75,7 +101,7 @@ function register() {
 		</div>
 	</div>
 	<div id="header2">Groups</div>
-	<button style="margin-top: 10px; margin-bottom: 5px;" onClick="$('#menu').slideDown(300);">New</button>
+	<button style="margin-top: 10px; margin-bottom: 5px;" onClick="startCreate();">New</button>
 	<div class="clearboth"></div>
 	<div id="log2">
 	<? if(mysql_num_rows($data) < 1) { ?>

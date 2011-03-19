@@ -11,6 +11,18 @@ session_start();
 <script type="text/javascript">
 $(document).ready(function() {
 
+	$(".menuClose").mouseenter(function() {
+		$(this).css('background-color', '#112233');
+	});
+
+	$(".menuClose").mouseleave(function() {
+		$(this).css('background-color', '#172E45');
+	});
+	
+	$(".menuClose").click(function() {
+		$("#menu").slideUp(300);
+	});
+	
 });
 
 function login(evt) {
@@ -64,7 +76,8 @@ function register() {
 <div id="menu">
 	<div id="menuContents">
 		<div class="menuItem" id="menuRegister">
-			<span class="menuHeader">Admin Info</span><br>
+			<span class="menuHeader">Admin Info</span>
+			<span class="menuClose">X</span><br>
 			<div style="width: 80%; margin-top: 50px;" class="alignRight">
 				Username: <input type="text" id="user" name="user" /><br>
 				Password: <input type="password" id="pass" name="pass" /><br>

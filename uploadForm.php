@@ -22,6 +22,17 @@ flashName = "";
 var curFile = 0;//don't think this is used...
 $(document).ready(function() {
 
+	$(".menuClose").mouseenter(function() {
+		$(this).css('background-color', '#112233');
+	});
+
+	$(".menuClose").mouseleave(function() {
+		$(this).css('background-color', '#172E45');
+	});
+	
+	$(".menuClose").click(function() {
+		$("#menu").slideUp(300);
+	});
 	
 	if($.browser.msie) {
 		handleIE();
@@ -210,7 +221,8 @@ function showMenu() {
 	<div id="menu">
 		<div id="menuContents">
 			<div class="menuItem" id="menuDetails">
-				<span class="menuHeader">Upload Details</span><br>
+				<span class="menuHeader">Upload Details</span>
+				<span class="menuClose">X</span><br>
 				Details:<br>
 				<textarea id="details"></textarea><br>
 				Operating System: <select id="os"> 
@@ -223,7 +235,8 @@ function showMenu() {
 				<span onclick="$('#menuDetails').animate({'margin-left': '-500px'}, 500);" id="menuNext">Contact Info -></span><br>
 			</div>
 			<div class="menuItem" id="menuContact">
-				<span class="menuHeader">Contact Info</span><br>
+				<span class="menuHeader">Contact Info</span>
+				<span class="menuClose">X</span><br>
 				Use custom contact info <input type="checkbox" id="customContact" onClick="customContactToggle();" /><br>
 				Name: <input disabled="disabled" type="text" id="name" name="name" value="<?=$ses_user['name'];?>" /><br>
 				Email Address: <input disabled="disabled" type="text" id="email" name="email" value="<?=$ses_user['email'];?>" /><br>
