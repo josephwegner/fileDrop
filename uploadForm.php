@@ -98,14 +98,26 @@ $(document).ready(function() {
 function listFile(event, file) {
 	var id = file.id;
 	var name = file.name;
-	var size = (Math.round((file.size/1048576) * 100)) / 100;//1048576 is 1MB in bytes
+	var gb = 1073741824;//1GB in bytes
+	var mb = 1048576;//1MB in bytes
+	var kb = 1024;//1KB in bytes
 
+	if(file.size >= gb) {//Always get the right file size
+		var size = (Math.round((file.size/gb) * 100)) / 100;
+		var txtSize = size + "GB";
+	} else if(file.size >=mb) {
+		var size = (Math.round((file.size/mb) * 100)) / 100;
+		var txtSize = size + "MB";
+	} else {
+		var size = (Math.round((file.size/kb)  * 100)) / 100;
+		var txtSize = size + "KB";
+	}	
 
 	
 	if($("#log").html() == "No Files are Selected")
 		$("#log").html("");//if #log is empty
 
-	var html = "<div id='" + id + "' class='logItem' style='height: 15px;'><div class='progress'></div><span class='logLabel'>" + name + " --- " + size + "MB</span>";
+	var html = "<div id='" + id + "' class='logItem' style='height: 15px;'><div class='progress'></div><span class='logLabel'>" + name + " --- " + txtSize + "</span>";
 	$("#log").append(html);//Maybe I should slideDown this
 }
 

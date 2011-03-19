@@ -28,6 +28,13 @@ require_once("connect.php");
 	if(mysql_num_rows($data))
 		mysql_data_seek($data, $offset);
 
+	//Variables for file sizes later
+	$gb = 1073741824;//1GB in bytes
+	$mb = 1048576;//1MB in bytes
+	$kb = 1024;//1KB in bytes
+
+
+
 	?>
 <title>File List</title>
 <link rel="stylesheet" type="text/css" href="main.css" />
@@ -167,14 +174,25 @@ function hideLightbox() {
 					$revision = $r_is_revision ? "Yes" : "No";
 					$tm = strtotime($r_upload_date);//Convert timestamp to readable format
 					$strtm = date("g:i A \o\\n n/j/y", $tm);
-			?>
+					
+					if($r_file_size >= $gb) {//Always get the right $r_file_size
+						$size = round($r_file_size/$gb, 2);
+						$txtSize = $size." GB";
+					} else if($r_file_size >= $mb) {
+						$size = round($r_file_size/$mb, 2);
+						$txtSize = $size." MB";
+					} else {
+						$size = round($r_file_size/$kb, 2);
+						$txtSize = $size." KB";
+					}
+				?>
 				<div class="logItem
 				<?
 					if($r_is_downloaded)
 						echo " downloaded";
 				?>">
 					<span class="fLeft"><?=$r_file_name;?></span>
-					<span class="fRight"><? echo (round(intval($r_file_size)/1048576, 2))." MB";?>
+					<span class="fRight"><?=$txtSize;?>
 					<a class="spanLink nobubble" href="javascript:downloadFile(<?=$r_id;?>)">Download</a>
 					<? if($r_has_preview) { ?>
 					<a class="spanLink nobubble" href="javascript:prepImage(<?=$r_id;?>, '<?=$r_file_name;?>');">Preview</a>
