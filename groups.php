@@ -82,7 +82,7 @@ function startCreate() {
 				Open Registration:
 				<input type="checkbox" id="open_register"><br>
 				<span id="current">1/2</span><br>
-				<span onclick="$('#menuGroup').animate({'margin-left': '-500px'}, 500);" id="menuNext">Admin Info -></span><br>
+				<span onclick="$('#menuGroup').animate({'margin-left': '-500px'}, 500);" id="menuNext">Next -></span><br>
 			</div>
 			<div class="menuItem" id="menuContact">
 				<span class="menuHeader">Admin Info</span>

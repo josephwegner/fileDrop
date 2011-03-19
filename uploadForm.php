@@ -235,16 +235,16 @@ function showMenu() {
 			<div class="menuItem" id="menuDetails">
 				<span class="menuHeader">Upload Details</span>
 				<span class="menuClose">X</span><br>
-				Details:<br>
+				Batch Details:<br>
 				<textarea id="details"></textarea><br>
 				Operating System: <select id="os"> 
 					<option value="mac">Mac</option> 
-					<option value="pc">PC</option> 
+					<option selected="selected" value="pc">PC</option> 
 					<option value="linux">Linux</option> 
-				</select><br>Revision: 
+				</select><br>Revised File: 
 				<input type="checkbox" id="revision"><br>
 				<span id="current">1/2</span><br>
-				<span onclick="$('#menuDetails').animate({'margin-left': '-500px'}, 500);" id="menuNext">Contact Info -></span><br>
+				<span onclick="$('#menuDetails').animate({'margin-left': '-500px'}, 500);" id="menuNext">Next -></span><br>
 			</div>
 			<div class="menuItem" id="menuContact">
 				<span class="menuHeader">Contact Info</span>
