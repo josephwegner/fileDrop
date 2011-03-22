@@ -275,6 +275,7 @@ function showMenu() {
 
 	<div id="swfupload-control"></div>
 	<div id="log">No Files are Selected</div>
-</div>
+	</div>
+<? include 'footer.php'; ?>
 </body>
 </html>

@@ -247,5 +247,6 @@ function hideLightbox() {
 	</div>
 	<iframe id="fram"></iframe>
 </div>
+<? include "footer.php"; ?>
 </body>
 </html>

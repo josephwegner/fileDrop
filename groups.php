@@ -122,5 +122,6 @@ function startCreate() {
 	?>
 	</div>
 </div>
+<? include "footer.php"; ?>
 </body>
 </html>

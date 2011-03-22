@@ -303,4 +303,14 @@ iframe#fram {
 	margin-left: -110px;
 	top: 300px;
 }
-
+#footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	color: white;
+	font-size: 12px;
+}
+#footer > a {
+	color: #678;
+}

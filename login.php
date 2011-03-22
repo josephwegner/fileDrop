@@ -103,5 +103,6 @@ function register() {
 	</div>
 	<a id="registerLink" onClick="startRegister();">Register</a>
 </div>
+<? include "footer.php"; ?>
 </body>
 </html>
