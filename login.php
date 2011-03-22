@@ -34,9 +34,10 @@ function login(evt) {
 		type: "POST",
 		url: "ajaxLogin.php",
 		data: {"user": user, "pass": pass },
-		success: function(msg) { document.location.reload(); },
-		error: function(msg) { alert("Invalid Login"); } //Need to handle this better
+		success: function(msg) { $("#loginForm").submit(); },
+		error: function(err, err2, err3) { alert("Invalid Login"); } //Need to handle this better
 	});
+	return false;
 }
 function startRegister() {
 	$("#menuRegister").children("#input").val("");//Clear Form
@@ -62,10 +63,10 @@ function register() {
 		data: {"user": user, "pass": pass, "name": name, "email": email, "phone": phone, "code": code },
 		success: function(msg) {
 			console.log(msg);
-			$("#menu").slideUp(500);
+			$("#menu").slideUp(500);	
 		},
 		error: function(err) {
-			alert(err);//Need to handle this better
+			alert(err);//Need to handle this better	
 		}
 	});
 }	
@@ -87,7 +88,7 @@ function register() {
 				Phone Number: <input type="text" id="phone" name="phone" /><br>
 				Group Code: <input type="text" id="code" name="code" /><br>
 				<span id="current">1/1</span><br>
-			</div>	
+			</div>
 			<span onClick="register();" id="menuNext">Register -></span><br>
 		</div>
 	</div>
@@ -95,11 +96,13 @@ function register() {
 <div id="wrapper">
 	<div id="header">Login</div>
 	<div id="login">
+		<form id="loginForm" method="POST" action="index.php">
 		<div class="loginHeader">Username</div>
 		<input class="loginField" type="text" id="username" name="username" /><br>
 		<div class="loginHeader">Password</div>
-		<input class="loginField" type="password" id="password" name="password" /><br>
-		<input type="submit" id="sub" name="sub" onClick="login(event);" />
+		<input class="loginField" type="password" id="password" name="password" /><br></form>
+		<input onClick="login(event);" type="submit" id="sub" name="sub" />
+		
 	</div>
 	<a id="registerLink" onClick="startRegister();">Register</a>
 </div>

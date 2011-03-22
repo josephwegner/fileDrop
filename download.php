@@ -3,8 +3,10 @@
 require_once("connect.php");
 
 $file_id = $_GET['id'];//Get variable
+$gid = $_SESSION['gid'];
 
-$sql = "SELECT `file_name` FROM files WHERE `id`='".$file_id."'";
+
+$sql = "SELECT `file_name` FROM files WHERE `group_id`=".$gid." AND `id`='".$file_id."'";
 
 $data = mysql_query($sql);//Get file data
 $dat = mysql_fetch_array($data);

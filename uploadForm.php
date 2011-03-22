@@ -265,6 +265,7 @@ function showMenu() {
 				Email Address: <input disabled="disabled" type="text" id="email" name="email" value="<?=$ses_user['email'];?>" /><br>
 				Phone Number: <input disabled="disabled" type="text" id="phone" name="phone" value="<?=$ses_user['phone'];?>" /><br>
 				<span id="current">2/2</span><br>
+				<span class="menuBack" onClick="$('#menuDetails').animate({'margin-left': '0px'}, 500);"><- Back</span>	
 				<span onClick="startUpload();" id="menuNext">Upload Files -></span><br>
 			</div>
 		</div>

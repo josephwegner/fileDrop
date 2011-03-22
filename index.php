@@ -56,6 +56,31 @@ $(document).ready(function() {
 		event.stopImmediatePropagation();//Nested clickables should not "click" the parent
 	});
 
+	$(".ex").click(function(event) {
+		event.stopImmediatePropagation();
+
+		if(!confirm("Delete File?"))
+			return false;
+
+		id = $(this).attr('id');
+
+		$.ajax({
+			type: "POST",
+			url: "ajaxDelete.php",
+			data: "id=" + id,
+			success: function(msg) {
+				$(".ex#" + id).parent().parent().slideUp(300, function() { $(this).remove(); });
+				console.log(msg);
+			},
+			error: function(err1, err2, err3) {
+				alert(err3);
+			}
+		});
+	});
+
+	$(".ex").mouseenter(function() { $(this).attr('src', 'images/delete_h.png'); });
+	$(".ex").mouseleave(function() { $(this).attr('src', 'images/delete.png'); });	
+
 	$(".logItem").each(function() {
 		$.data(this, "show", "false");//Data is not slid down
 	});
@@ -199,7 +224,7 @@ function hideLightbox() {
 					if($r_is_downloaded)
 						echo " downloaded";
 				?>">
-					<span class="fLeft"><?=$r_file_name;?></span>
+					<span class="fLeft"><img id="<?=$r_id;?>" class="ex" src="images/delete.png" /><?=$r_file_name;?></span>
 					<span class="fRight"><?=$txtSize;?>
 					<a class="spanLink nobubble" href="javascript:downloadFile(<?=$r_id;?>)">Download</a>
 					<? if($r_has_preview) { ?>
