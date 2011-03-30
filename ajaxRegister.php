@@ -1,6 +1,8 @@
 <?
 
-require_once("config.php");
+require_once("config/config.php");
+require_once("config/phpFuncts.php");
+
 
 mysql_connect($sqlAddress, $sqlUser, $sqlPass);
 mysql_select_db($sqlDB);//Can't use connect.php because we haven't authenticated
@@ -10,7 +12,9 @@ $pass = post('pass');
 $name = post('name');
 $email = post('email');
 $phone = post('phone');
-$code = post('code');//get Variables
+$code = post('code');//get Variable
+
+validateInputs($user, $name, $email, $phone, $code);
 
 $salt = md5($saltKey);
 $encoded = md5($salt.$pass);//Secure your password
@@ -36,11 +40,21 @@ $sql .= "'".$user."', '".$encoded."', '".$name."', '".$email."', '".$phone."', "
 
 mysql_query($sql); //Create user
 
-function post($val) {
-	return addslashes(strip_tags(URLDecode($_POST[$val])));
-}
-function error($msg) {
-	header("HTTP/1.0 555 ".$msg);
-	die();
+
+function validateInputs($user, $name, $email, $phone, $code) {
+	$passed = "";
+
+	$passed = (sanitizeString($user) == $user) ? $passed : "Invalid User";
+
+	$passed = (sanitizeString($name, true) == $name) ? $passed : "Invalid Name";
+
+	$passed = verifyEmail($email) ? $passed : "Invaid Email";
+
+	$passed = verifyPhone($phone) ? $passed : "Invalid Phone";
+
+	$passed = (sanitizeString($code) == $code) ? $passed : "Invalid Group Code";
+
+	if($passed != "")
+		error($passed);
 }
 ?> 

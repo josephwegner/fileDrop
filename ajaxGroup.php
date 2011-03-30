@@ -1,8 +1,8 @@
 <?
 
-require_once("connect.php");
+require_once("config/connect.php");
 
-$g_name = post('g_name');
+$g_name = sanitizeString(post('g_name'));
 $open_register = post('open_register');
 
 $a_user = post('user');
@@ -10,6 +10,8 @@ $a_pass = post('pass');
 $a_name = post('a_name');
 $a_email = post('email');
 $a_phone = post('phone');//Grab Variables
+
+validateInputs($open_register, $a_user, $a_name, $a_email, $a_phone);
 
 $sql = "SELECT `id` FROM groups WHERE `name`='" . $g_name . "'";
 
@@ -44,11 +46,22 @@ $sql = "UPDATE groups SET `admin_id`=".$admin_id." WHERE `id`=".$group_id;
 
 mysql_query($sql);//Update group with admin ID
 
-function post($val) {
-	return addslashes(strip_tags(URLDecode($_POST[$val])));
-}
-function error($msg) {
-	header("HTTP/1.0 555 ".$msg);
-	die();
+
+
+function validateInputs($open_register, $a_user, $a_name, $a_email, $a_phone) {
+	$passed = "";
+	
+	$passed = (is_numeric($open_register)) ? $passed : "Invalid Registration";
+
+	$passed = (sanitizeString($a_user) == $a_user) ? $passed : "Invalid User";
+
+	$passed = (sanitizeString($a_name, true) == $a_name) ? $passed : "Invalid Name";
+
+	$passed = verifyEmail($a_email) ? $passed : "Invalid Email";
+
+	$passed = verifyPhone($a_phone) ? $passed : "Invalid Phone";
+
+	if($passed != "")
+		error($passed);
 }
 ?>

@@ -1,12 +1,13 @@
 <?
 session_start();
 
-require_once("config.php"); //init
+require_once("config/config.php"); //init
+require_once("config/phpFuncts.php");
 
 mysql_connect($sqlAddress, $sqlUser, $sqlPass);
 mysql_select_db($sqlDB);//Can't load from connect.php because we haven't authenticated yet.
 
-$user = post('user');
+$user = sanitizeString(post('user'));
 $pass = post('pass');
 
 $salt = md5($saltKey);//hashes salt from your config file
@@ -32,7 +33,5 @@ if($get_pass == $encode_pass) { //Check against sent password
 
 
 
-function post($val) {
-	return addslashes(strip_tags(URLDecode($_POST[$val])));
-}
+
 ?>

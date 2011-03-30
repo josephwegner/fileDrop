@@ -1,10 +1,12 @@
 <?
 	
-require_once("connect.php");
+require_once("config/connect.php");
 
 $file_id = $_GET['id'];//Get variable
 $gid = $_SESSION['gid'];
 
+if(!is_numeric($file_id))
+	error("Invalid Inputss");
 
 $sql = "SELECT `file_name` FROM files WHERE `group_id`=".$gid." AND `id`='".$file_id."'";
 

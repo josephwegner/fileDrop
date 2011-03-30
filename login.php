@@ -22,10 +22,15 @@ $(document).ready(function() {
 	$(".menuClose").click(function() {
 		$("#menu").slideUp(300);
 	});
+
+	$("#loginForm").children("input").keypress(function(e) {
+		if(e.which == 13)
+			login();	
+	});
 	
 });
 
-function login(evt) {
+function login() {
 	
 	var user = $("#username").val();
 	var pass = $("#password").val();//Get Vars
@@ -54,7 +59,6 @@ function register() {
 	var code = $("#code").val();//Get Vars
 
 	//Validation Here//
-		
 	//End Validation//
 
 	$.ajax({
@@ -62,11 +66,10 @@ function register() {
 		url: "ajaxRegister.php",
 		data: {"user": user, "pass": pass, "name": name, "email": email, "phone": phone, "code": code },
 		success: function(msg) {
-			console.log(msg);
 			$("#menu").slideUp(500);	
 		},
-		error: function(err) {
-			alert(err);//Need to handle this better	
+		error: function(err, err2, err3) {
+			alert(err3);//Need to handle this better	
 		}
 	});
 }	
@@ -79,7 +82,7 @@ function register() {
 		<div class="menuItem" id="menuRegister">
 			<span class="menuHeader">Admin Info</span>
 			<span class="menuClose">X</span><br>
-			<div style="width: 80%; margin-top: 50px;" class="alignRight">
+			<div style="width: 80%; margin-top: 50px;" class="menuRegister">
 				Username: <input type="text" id="user" name="user" /><br>
 				Password: <input type="password" id="pass" name="pass" /><br>
 				Verify Password: <input type="password" id="password2" name="password2" /><br>
@@ -101,7 +104,7 @@ function register() {
 		<input class="loginField" type="text" id="username" name="username" /><br>
 		<div class="loginHeader">Password</div>
 		<input class="loginField" type="password" id="password" name="password" /><br></form>
-		<input onClick="login(event);" type="submit" id="sub" name="sub" />
+		<input onClick="login();" type="submit" id="sub" name="sub" />
 		
 	</div>
 	<a id="registerLink" onClick="startRegister();">Register</a>

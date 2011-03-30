@@ -3,7 +3,7 @@
 <html>
 <head>
 <?
-require_once("connect.php");
+require_once("config/connect.php");
 
 $sql = "SELECT * FROM groups";//get ALL groups
 
@@ -52,8 +52,8 @@ function register() {
 		success: function(msg) {
 				$("#menu").slideUp(500);
 			},
-		error: function(err) {
-				alert(err);
+		error: function(err, err2, err3) {
+				alert(err3);
 			}
 	});
 }

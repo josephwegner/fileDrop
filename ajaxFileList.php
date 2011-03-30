@@ -1,5 +1,5 @@
 <?
-require_once("connect.php");
+require_once("config/connect.php");
 
 	if(isset($_SESSION['page']))
 		$page = $_SESSION['page'];
@@ -8,6 +8,9 @@ require_once("connect.php");
 
 	$incre = $_GET['incre'];
 	$page += $incre;
+
+	if(!is_numeric($incre))
+		error("Invalid Inputs");
 
 	$_SESSION['page'] = $page;
 	
@@ -41,7 +44,7 @@ require_once("connect.php");
 			if($r_is_downloaded)
 				echo " downloaded";
 		?>">
-			<span class="fLeft"><?=$r_file_name;?></span>
+			<span class="fLeft"><img id="<?=$r_id;?>" class="ex" src="images/delete.png" /><?=$r_file_name;?></span>
 			<span class="fRight"><? echo (round(intval($r_file_size)/1048576, 2))." MB";?>
 			<a class="spanLink nobubble" href="javascript:downloadFile(<?=$r_id;?>)">Download</a>
 			<? if($r_has_preview) { ?>

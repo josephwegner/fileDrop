@@ -1,17 +1,19 @@
 <?
-	require_once("connect.php");
-	require_once("imagine.php");
+	require_once("config/connect.php");
+	require_once("config/imagine.php");
 
-	$name = post('name');
+	$name = sanitizeString(post('name'), true);
 	$email = post('email');
 	$phone = post('phone');
 	$user = post('user');
 	$group = post('group');
-	$detail = post('detail');
-	$os = post('os');
+	$detail = sanitizeString(post('detail'), true);
+	$os = sanitizeString(post('os'));
 	$revision = post('revision');
-	$file = post('file');
+	$file = sanitizeString(post('file'));
 	$size = post('size');//Grab Vars
+
+	validateInputs($email, $phone, $user, $group, $revision, $size);
 
 	$sql = "SELECT `name` FROM users WHERE `id`=".$user;
 	$dat = mysql_query($sql);//Get user name of currently logged on user
@@ -46,7 +48,23 @@ function stringify($data, $end = false) {
 
 	return $fini;
 }
-function post($val) {
-	return addslashes(strip_tags(URLDecode($_POST[$val])));
+
+function validateInputs($email, $phone, $user, $group, $revision, $size) {
+	$passed = true;
+
+	$passed = is_numeric($user) ? $passed : false;
+
+	$passed = is_numeric($group) ? $passed : false;
+
+	$passed = is_numeric($revision) ? $passed : false;
+	
+	$passed = is_numeric($size) ? $passed : false;
+
+	$passed = verifyEmail($email) ? $passed : false;
+
+	$passed = verifyPhone($phone) ? $passed : false;
+
+	if(!$passed)
+		error("Invalid Inputs");
 }
 ?>

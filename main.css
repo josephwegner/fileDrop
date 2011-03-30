@@ -7,7 +7,7 @@ body {
 	padding-top: 3px;
 }
 div#wrapper {
-	padding: 20px;
+	/*padding: 20px 0px 20px 20px;*/
 	height: 100%;
 	width: 100%;
 }
@@ -63,7 +63,13 @@ button {
 }
 .menuItem > input {
 	margin-bottom: 20px;
+}
+#menuRegister {
+	text-align: right;
 }	
+#menuRegister > input {
+	width: 146px;
+}
 #menuContents {
 	width: 1000px;
 	height: 100%;
@@ -194,6 +200,7 @@ div.loginHeader {
 #logSlideHold {
 	width: 800px;
 	overflow: hidden;
+	padding: 20px 0px 20px 20px;
 }
 table {
 	font-size: 12px;

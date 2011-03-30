@@ -3,7 +3,7 @@
 <html>
 <head>
 <?
-require_once("connect.php");
+require_once("config/connect.php");
 
 	if(isset($_SESSION['page']))
 		$page = $_SESSION['page'];
@@ -52,11 +52,11 @@ $(document).ready(function() {
 
 	$("#overlay").click(hideLightbox);
 
-	$(".nobubble").click(function(event) {
+	$(".nobubble").live('click', function(event) {
 		event.stopImmediatePropagation();//Nested clickables should not "click" the parent
 	});
 
-	$(".ex").click(function(event) {
+	$(".ex").live('click', function(event) {
 		event.stopImmediatePropagation();
 
 		if(!confirm("Delete File?"))
@@ -78,22 +78,22 @@ $(document).ready(function() {
 		});
 	});
 
-	$(".ex").mouseenter(function() { $(this).attr('src', 'images/delete_h.png'); });
-	$(".ex").mouseleave(function() { $(this).attr('src', 'images/delete.png'); });	
+	$(".ex").live('mouseenter', function() { $(this).attr('src', 'images/delete_h.png'); });
+	$(".ex").live('mouseleave', function() { $(this).attr('src', 'images/delete.png'); });	
 
 	$(".logItem").each(function() {
 		$.data(this, "show", "false");//Data is not slid down
 	});
 	
-	$(".logItem").mouseenter(function() {
+	$(".logItem").live('mouseenter', function() {
 			$(this).css('background-color', '#112255');
 	});		
 
-	$(".logItem").mouseleave(function() {
+	$(".logItem").live('mouseleave', function() {
 		$(this).css('background-color', '');
 	});
 
-	$(".logItem").click(function() {
+	$(".logItem").live('click', function() {
 		var showed = $.data(this, "show");//Data is showing
 		
 		if(showed == "true") {//Check if it's already showing
@@ -260,7 +260,7 @@ function hideLightbox() {
 				echo "<a style='margin-right: 5px' class='spanLink nobubble' href='javascript:newPage(-1);'><--</a>";
 			
 			$pgs = !$offset ? 1 : ceil($num / 20);
-			echo $page." / ".$pgs;
+			echo "Page ".$page." / ".$pgs;
 			if($offset < ($num - 20))
 				echo "<a style='margin-left: 5px' class='spanLink nobubble' href='javascript:newPage(1);'>--></a>";
 			

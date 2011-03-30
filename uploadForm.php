@@ -2,7 +2,7 @@
 <html>
 <head>
 <?
-require_once("connect.php");
+require_once("config/connect.php");
 
 $uid = $_SESSION['user_id'];//get User ID from SESSION
 $gid = $_SESSION['gid'];
@@ -95,17 +95,35 @@ $(document).ready(function() {
 			$("#" + file.id).slideUp(100, function() {//hide it
 				$(this).remove();//remove it
 				
-				if($("#log").html() == "")//If #log is empty
-					$("#log").html("No Files are Selected");
+	
+				sendData(file.name, file.size);//AJAXify this file upload
 
-			sendData(file.name, file.size);//AJAXify this file upload
-				setTimeout(function() { $("#swfupload-control").swfupload('startUpload'); }, 300);//go again
+				if($("#log").html() == "")//If #log is empty
+					uploadFinished();
+				else 
+					setTimeout(function() { $("#swfupload-control").swfupload('startUpload'); }, 300);//go again
 			});
 		});
 	$("#swfupload-control").bind('uploadSuccess', function(del, msg, err) {
 		console.log(msg);
 	});	
 });
+function uploadFinished() {
+	msg = "File upload completed - redirecting.  If your page does not redirect";
+	msg += " in 3 seconds, <a href='index.php'>click here</a>";
+	$("#log").html(msg);
+
+	setTimeout(function() { window.location = "index.php"; }, 3000);
+}
+function deleteItem(image) {
+	id = $(image).parent().parent().attr('id');
+	
+	var swfu = $.swfupload.getInstance("#swfupload-control");
+
+	swfu.cancelUpload(id);
+
+	$("#" + id).slideUp(100);
+}
 function listFile(event, file) {
 	var id = file.id;
 	var name = file.name;
@@ -128,7 +146,9 @@ function listFile(event, file) {
 	if($("#log").html() == "No Files are Selected")
 		$("#log").html("");//if #log is empty
 
-	var html = "<div id='" + id + "' class='logItem' style='height: 15px;'><div class='progress'></div><span class='logLabel'>" + name + " --- " + txtSize + "</span>";
+	var html = "<div id='" + id + "' class='logItem' style='height: 15px;'>";
+	html += "<div class='progress'></div><span class='logLabel'>";
+	html += "<img onClick='deleteItem(this);' class='ex' src='images/delete.png' />" + name + " --- " + txtSize + "</span>";
 	$("#log").append(html);//Maybe I should slideDown this
 }
 
@@ -229,11 +249,17 @@ function handleIE() {
 	setTimeout(function() { $(".swfupload").height('20px'); }, 100);
 }
 function showMenu() {
-	$("#menuDetails").children("input").val("");
-	$("#details").val("");
-	$("#menuDetails").css('margin-left', '0px');	
+	swfu = $.swfupload.getInstance("#swfupload-control");
+	stats = swfu.getStats();
 
-	$("#menu").slideDown(300);
+	if(stats.files_queued > 0) {	
+
+		$("#menuDetails").children("input").val("");
+		$("#details").val("");
+		$("#menuDetails").css('margin-left', '0px');	
+
+		$("#menu").slideDown(300);
+	}
 }
 </script>
 
