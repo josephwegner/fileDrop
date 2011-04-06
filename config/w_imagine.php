@@ -36,59 +36,59 @@ function convert($path, $extension) {
 
 	switch($extension) {
 		case "jpeg":
-			$cmd = "convert ".$path." -resize 350x350\> ".$newPath;
+			$cmd = "convert ".$path." -resize 350x350 ".$newPath;
 			exec($cmd);			
 			break;
 	
 		case "jpg":
-			$cmd = "convert ".$path." -resize 350x350\> ".$newPath;
+			$cmd = "convert ".$path." -resize 350x350 ".$newPath;
 			exec($cmd);
 			break;
 	
 		case "png":
-			$cmd = "convert ".$path." -resize 350x350\> -background white -flatten ".$newPath;
+			$cmd = "convert ".$path." -resize 350x350 -background white -flatten ".$newPath;
 			exec($cmd);
 			break;
 	
 		case "bmp":
-			$cmd = "convert ".$path." -resize 350x350\> ".$newPath;
+			$cmd = "convert ".$path." -resize 350x350 ".$newPath;
 			exec($cmd);
 			break;
 	
 		case "gif":
-			$cmd = "convert ".$path." -resize 350x350\> -background white -flatten ".$newPath;
+			$cmd = "convert ".$path." -resize 350x350 -background white -flatten ".$newPath;
 			exec($cmd);
 			break;
 	
 		case "ai":
-			$cmd = "convert ".$path." -resize 350x350x\> -background white -flatten ".$newPath;
+			$cmd = "convert ".$path." -resize 350x350 -background white -flatten ".$newPath;
 			exec($cmd);
 			break;
 	
 		case "pdf":
-			$cmd = "convert ".$path."[0] -resize 350x350x\> ".$newPath;
+			$cmd = "convert ".$path."[0] -resize 350x350 ".$newPath;
 			exec($cmd);
 			break;
 	
 		case "ps":
-			$cmd = "convert ".$path." -resize 350x350\> -background white -flatten ".$newPath;
+			$cmd = "convert ".$path." -resize 350x350 -background white -flatten ".$newPath;
 			exec($cmd);
 			break;
 	
 		case "psd":
 			$cmd = "convert ".$path."[0] ".$newPath;
 			exec($cmd);
-			$cmd = "convert ".$newPath." -resize 350x350\> ".$newPath;
+			$cmd = "convert ".$newPath." -resize 350x350 ".$newPath;
 			exec($cmd);
 			break;
 
 		case "tif":
-			$cmd = "convert ".$path." -resize 350x350x\> -background white -flatten ".$newPath;
+			$cmd = "convert ".$path." -resize 350x350 -background white -flatten ".$newPath;
 			exec($cmd);
 			break;
 
 		case "eps":
-			$cmd = "convert ".$path." -resize 350x350x\> -background white -flatten ".$newPath;
+			$cmd = "convert ".$path." -resize 350x350 -background white -flatten ".$newPath;
 			exec($cmd);
 			break;
 	

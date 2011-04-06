@@ -1,6 +1,6 @@
-<?
+<?php
 require_once("config/connect.php");
-include "config/imagine.php";
+include $imagineVer;
 
 $name = addslashes(strip_tags(URLDecode($_POST['name'])));
 

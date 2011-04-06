@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("config/connect.php");
 
 $gid = $_SESSION['gid'];

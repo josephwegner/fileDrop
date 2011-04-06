@@ -1,9 +1,10 @@
+<?php require_once("config/connect.php"); ?>
 <!DOCTYPE html>
 
 <html>
 <head>
-<?
-require_once("config/connect.php");
+<?php
+
 
 $sql = "SELECT * FROM groups";//get ALL groups
 
@@ -70,7 +71,7 @@ function startCreate() {
 
 </head>
 <body>
-<? include "header.php"; ?>
+<?php include "header.php"; ?>
 <div id="wrapper">
 	<div id="menu">
 		<div id="menuContents">
@@ -104,24 +105,24 @@ function startCreate() {
 	<button style="margin-top: 10px; margin-bottom: 5px;" onClick="startCreate();">New</button>
 	<div class="clearboth"></div>
 	<div id="log2">
-	<? if(mysql_num_rows($data) < 1) { ?>
+	<?php if(mysql_num_rows($data) < 1) { ?>
 		No groups have been created.
-	<? } else {
+	<?php } else {
 		while($row = mysql_fetch_array($data)) {
 			extract($row, EXTR_PREFIX_ALL, "r");//break into vars
 			$open = ($r_open_register) ? "Yes" : "No";
 	?>
 		<div class="logItem">
-			<div class="groupDetail">Name: <?=$r_name;?></div>
-			<div class="groupDetail">Code: <?=$r_code;?></div>
-			<div class="groupDetail">Open Registration: <?=$open;?></div>
+			<div class="groupDetail">Name: <?php echo $r_name;?></div>
+			<div class="groupDetail">Code: <?php echo $r_code;?></div>
+			<div class="groupDetail">Open Registration: <?php echo $open;?></div>
 		</div>
-	<?	
+	<?php
 		}
 	   }
 	?>
 	</div>
 </div>
-<? include "footer.php"; ?>
+<?php include "footer.php"; ?>
 </body>
 </html>

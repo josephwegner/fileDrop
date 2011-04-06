@@ -1,4 +1,4 @@
-<?
+<?php
 function post($val) {
 	return addslashes(strip_tags(URLDecode($_POST[$val])));
 }

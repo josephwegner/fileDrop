@@ -15,7 +15,7 @@
 	
 	$gid = $_SESSION['gid'];
 
-	$sql = "SELECT * FROM files WHERE `group_id`=".$gid." ORDER BY `is_downloaded`, `upload_date`";
+	$sql = "SELECT * FROM files ORDER BY `is_downloaded`, `upload_date`";
 	$data = mysql_query($sql);//Get current groups files
 
 	$sql = "SELECT `name` FROM groups WHERE `id`=".$gid;

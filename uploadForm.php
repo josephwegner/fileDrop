@@ -1,8 +1,8 @@
+<?php require_once("config/connect.php"); ?>
 <!DOCTYPE html>
 <html>
 <head>
-<?
-require_once("config/connect.php");
+<?php
 
 $uid = $_SESSION['user_id'];//get User ID from SESSION
 $gid = $_SESSION['gid'];
@@ -160,8 +160,8 @@ function sendData(file, size) {
 	var details = $("#details").val();
 	var os = $("#os").val();
 	var revision = $("#revision").attr("checked") ? 1 : 0;	
-	var user = <?=$ses_user['id'];?>;
-	var group = <?=$ses_user['group_id'];?>; //grab data to send via AJAX
+	var user = <?php echo $ses_user['id']; ?>;
+	var group = <?php echo $ses_user['group_id']; ?>; //grab data to send via AJAX
 
 	$.ajax({
 		type: "POST",
@@ -265,7 +265,7 @@ function showMenu() {
 
 </head>
 <body>
-<? include "header.php"; ?>
+<?php include "header.php"; ?>
 <div id="wrapper">
 	<div id="menu">
 		<div id="menuContents">
@@ -287,22 +287,22 @@ function showMenu() {
 				<span class="menuHeader">Contact Info</span>
 				<span class="menuClose">X</span><br>
 				Use custom contact info <input type="checkbox" id="customContact" onClick="customContactToggle();" /><br>
-				Name: <input disabled="disabled" type="text" id="name" name="name" value="<?=$ses_user['name'];?>" /><br>
-				Email Address: <input disabled="disabled" type="text" id="email" name="email" value="<?=$ses_user['email'];?>" /><br>
-				Phone Number: <input disabled="disabled" type="text" id="phone" name="phone" value="<?=$ses_user['phone'];?>" /><br>
+				Name: <input disabled="disabled" type="text" id="name" name="name" value="<?php echo $ses_user['name'];?>" /><br>
+				Email Address: <input disabled="disabled" type="text" id="email" name="email" value="<?php echo $ses_user['email'];?>" /><br>
+				Phone Number: <input disabled="disabled" type="text" id="phone" name="phone" value="<?php echo $ses_user['phone'];?>" /><br>
 				<span id="current">2/2</span><br>
 				<span class="menuBack" onClick="$('#menuDetails').animate({'margin-left': '0px'}, 500);"><- Back</span>	
 				<span onClick="startUpload();" id="menuNext">Upload Files -></span><br>
 			</div>
 		</div>
 	</div>
-	<div id="header">File Upload - <?=$group;?></div>
+	<div id="header">File Upload - <?php echo $group; ?></div>
 	<input type="button" id="button" />
 	<button id="button2" style="margin-bottom: 10px;" onClick="showMenu();">Upload</button>
 
 	<div id="swfupload-control"></div>
 	<div id="log">No Files are Selected</div>
 	</div>
-<? include 'footer.php'; ?>
+<?php include 'footer.php'; ?>
 </body>
 </html>
