@@ -10,6 +10,7 @@ div#wrapper {
 	/*padding: 20px 0px 20px 20px;*/
 	height: 100%;
 	width: 100%;
+    position: relative;
 }
 
 button {
@@ -167,6 +168,17 @@ input.loginField {
 div.loginHeader {
 	margin-top: 10px;
 }
+div#options {
+    width: 780px;
+    border: 1px solid #445566;
+    background-color: #112233;
+    color: #FFFFFF;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+}
 #log {
 	width: 800px;
 	border: 1px solid #445566;
@@ -229,6 +241,10 @@ div#buttonControl {
 }
 .downloaded {
 	background-color: #222222;
+}
+.busDown {
+    background-color: #222222;
+    display: none;
 }
 .spanLink {
 	color: #667788;
@@ -328,6 +344,7 @@ iframe#fram {
 	text-align: center;
 	color: white;
 	font-size: 12px;
+    height: 15px;
 }
 #footer > a {
 	color: #678;
@@ -335,5 +352,21 @@ iframe#fram {
 .ex {
 	cursor: pointer;
 	margin-right: 10px;
+}
+.groupHead {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 5px;
+}
+#infoBox {
+    text-align: center;
+    width: 200px;
+    background-color: #112233;
+    color: #FFFFFF;
+    border: 2px solid #445566;
+    padding-left: 5px;
+    position: absolute;
+    z-index: 101;
+    display: none;
 }
 

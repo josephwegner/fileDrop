@@ -48,8 +48,11 @@
 <title>File List</title>
 <link rel="stylesheet" type="text/css" href="main.css" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="config/infoBox.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+
+    var aboutUs = new infoBox("aboutus", "http://www.wegnerdesign.com", [ "fRight" ]);
 
 	$("#overlay").click(hideLightbox);
 
@@ -260,7 +263,7 @@ function hideLightbox() {
 			if($offset > 0) 
 				echo "<a style='margin-right: 5px' class='spanLink nobubble' href='javascript:newPage(-1);'><--</a>";
 			
-			$pgs = !$offset ? 1 : ceil($num / 20);
+			$pgs = ceil($num / 20);
 			echo "Page ".$page." / ".$pgs;
 			if($offset < ($num - 20))
 				echo "<a style='margin-left: 5px' class='spanLink nobubble' href='javascript:newPage(1);'>--></a>";
