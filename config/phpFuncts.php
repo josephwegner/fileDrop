@@ -47,4 +47,18 @@ function verifyPhone($number) {
 	else
 		return false;
 }
+function adminPage() {
+    if(!isset($_SESSION['is_admin'])) {
+       goHome();
+    } else {
+         if(!$_SESSION['is_admin']) {
+            goHome();
+        }
+    }
+
+}
+function goHome() {
+    header("Location: index.php");
+    die();
+}
 ?>

@@ -1,4 +1,4 @@
-<?php require_once("config/connect.php"); ?>
+<?php require_once("config/connect.php"); adminPage(); ?>
 <!DOCTYPE html>
 
 <html>

@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `files` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `file_name` text NOT NULL,
   `file_size` int(11) NOT NULL,
-  `upload_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `upload_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `group_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,

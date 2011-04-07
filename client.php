@@ -1,6 +1,8 @@
 <!DOCTYPE html>
+<html>
+<head>
 <?php
-    adminPage();
+
 
 	if(isset($_SESSION['page']))
 		$page = $_SESSION['page'];
@@ -8,14 +10,10 @@
 		$page = 1;
 
 
-
+	
 	$gid = $_SESSION['gid'];
 
-	$sql = "SELECT files.*, sub.group_id FROM files, ";
-    $sql .= "(SELECT MAX(`upload_date`) AS gpOrder, `group_id` FROM files ";
-    $sql .= "GROUP BY `group_id`) AS sub WHERE sub.group_id=files.group_id";
-    $sql .= " ORDER BY sub.gpOrder DESC, files.upload_date DESC";
-
+	$sql = "SELECT * FROM files WHERE `group_id`=".$gid." ORDER BY `is_downloaded`, `upload_date`";
 	$data = mysql_query($sql);//Get current groups files
 
 	$sql = "SELECT `name` FROM groups WHERE `id`=".$gid;
@@ -26,9 +24,7 @@
 
 	$group = $group_p['name'];
 
-    $sql = "SELECT `id` FROM files WHERE `is_downloaded`=0";
-    $numNonDownloaded = mysql_query($sql);
-	$num =  mysql_num_rows($numNonDownloaded);
+	$num =  mysql_num_rows($data);
 	$offset = ($page - 1) * 20;
 
 	while($offset > $num) {
@@ -47,9 +43,6 @@
 
 
 	?>
-<html>
-<head>
-
 <title>File List</title>
 <link rel="stylesheet" type="text/css" href="main.css" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
@@ -117,20 +110,17 @@ $(document).ready(function() {
 function newPage(incre) {
 	$.ajax({
 		type: "GET",
-		url: "ajaxBusiness.php",
+		url: "ajaxFileList.php",
 		data: "incre=" + incre,
 		success: function(msg) {
 			$("#logSlide").html(msg);
 			width = $("#logSlideHold").width();
-		    $('html, body').animate({scrollTop: '0'}, 100, function() {
-                $("#logSlide").show();
-                toggleDownloaded();
-                $("#log2").animate({'margin-left': (-1 * width)}, 300, function() {
-                    $("#log2").html($("#logSlide").html());
-                    $("#log2").css('margin-left', '0px');
-
-                });
-            });
+		
+			$("#logSlide").show();
+			$("#log2").animate({'margin-left': (-1 * width)}, 300, function() {
+				$("#log2").html($("#logSlide").html());
+				$("#log2").css('margin-left', '0px');
+			});
 		}
 	});
 }
@@ -192,14 +182,6 @@ function hideLightbox() {
 		});
 	});
 }
-function toggleDownloaded() {
-    if($("#showHidden").attr('checked')) {
-        $(".busDown").show();
-    } else {
-        $(".busDown").hide();
-    }
-
-}
 </script>
 
 </head>
@@ -214,31 +196,16 @@ function toggleDownloaded() {
 
 <div id="wrapper">
 	<div id="header2">File List - <?php echo $group;?></div>
-    <div id="options">
-        Show Downloaded Files <input type="checkbox" id="showHidden" onClick="javascript:toggleDownloaded();" />
-    </div>
 	<div id="logSlideHold">
 		<div id="logHolder">
 			<div id="log2">
 			<?php
-            $curGroup = -1;
 			$cur = 1;
 			if(mysql_num_rows($data) < 1) { ?>
 			No Files are Currently Available<br>
 			<?php } else {
 				while(($row = mysql_fetch_array($data)) && $cur <= 20) {
 					extract($row, EXTR_PREFIX_ALL, "r");//Break array into seperate vars
-
-                    if($curGroup != $r_group_id) {
-                        $curGroup = $r_group_id;
-                        $sql = "SELECT `name` FROM groups WHERE `id`=".$curGroup;
-                        $grpDat = mysql_query($sql);
-                        $grpArr = mysql_fetch_array($grpDat);
-
-                        echo "<div class='groupHead'>".$grpArr['name']."</div><hr>";
-
-                    }
-
 					$revision = $r_is_revision ? "Yes" : "No";
 					$tm = strtotime($r_upload_date);//Convert timestamp to readable format
 					$strtm = date("g:i A \o\\n n/j/y", $tm);
@@ -256,10 +223,8 @@ function toggleDownloaded() {
 				?>
 				<div class="logItem
 				<?php
-					if($r_is_downloaded) {
-						echo " busDown";
-                        $cur--;
-                    }
+					if($r_is_downloaded)
+						echo " downloaded";
 				?>">
 					<span class="fLeft"><img id="<?php echo $r_id;?>" class="ex" src="images/delete.png" /><?php echo $r_file_name;?></span>
 					<span class="fRight"><?php echo $txtSize;?>
