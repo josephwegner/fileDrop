@@ -31,7 +31,9 @@ require_once("config/connect.php");
 
 	$group = $group_p['name'];
 
-	$num =  mysql_num_rows($data);
+	$sql = "SELECT `id` FROM files WHERE `is_downloaded`=0";
+    $numNonDownloaded = mysql_query($sql);
+	$num =  mysql_num_rows($numNonDownloaded);
 	$offset = ($page - 1) * 20;
 
 	while($offset > $num) {
@@ -82,8 +84,10 @@ require_once("config/connect.php");
 				?>
 				<div class="logItem
 				<?php
-					if($r_is_downloaded)
+					if($r_is_downloaded) {
 						echo " busDown";
+                        $cur--;
+                    }
 				?>">
 					<span class="fLeft"><img id="<?php echo $r_id;?>" class="ex" src="images/delete.png" /><?php echo $r_file_name;?></span>
 					<span class="fRight"><?php echo $txtSize;?>

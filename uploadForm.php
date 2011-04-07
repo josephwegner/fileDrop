@@ -25,6 +25,7 @@ $group = $group_p['name'];
 <title>File Uploader</title>
 <link rel="stylesheet" type="text/css" href="main.css" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="config/infoBox.js"></script>
 <script type="text/javascript" src="flash/jquery.swfupload.js"></script>
 <script type="text/javascript" src="flash/swfupload.js"></script>
 <script type="text/javascript">
@@ -32,6 +33,8 @@ noFlash = false;
 flashName = "";
 var curFile = 0;//don't think this is used...
 $(document).ready(function() {
+
+    var aboutUs = new infoBox("aboutus", "http://www.wegnerdesign.com", [ "fRight" ]);
 
 	$(".menuClose").mouseenter(function() {
 		$(this).css('background-color', '#112233');

@@ -19,6 +19,8 @@ function infoBox(id, link, classes) {
     this.obj = $(this.select);
     obj = this.obj;
 
+    $(this.select).addClass("tooltipIcon");
+
     if(typeof classes != undefined) {
         for(var i in classes)
             $(this.select).addClass(classes[i]);
