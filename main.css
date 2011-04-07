@@ -11,6 +11,8 @@ div#wrapper {
 	height: 100%;
 	width: 100%;
     position: relative;
+    margin-left: 20px;
+    margin-top: 20px;
 }
 
 button {
@@ -178,7 +180,6 @@ div#options {
     margin-left: 20px;
     margin-top: 20px;
 }
-}
 #log {
 	width: 800px;
 	border: 1px solid #445566;
@@ -201,7 +202,7 @@ div#options {
 	float: left;
 }
 #logSlide {
-	width: 800px;
+	width: 778px;
 	border: 1px solid #445566;
 	background-color: #112233;
 	color: #FFFFFF;
@@ -212,7 +213,7 @@ div#options {
 #logSlideHold {
 	width: 800px;
 	overflow: hidden;
-	padding: 20px 0px 20px 20px;
+	margin: 20px 0px 20px 20px;
 }
 table {
 	font-size: 12px;
@@ -368,5 +369,9 @@ iframe#fram {
     position: absolute;
     z-index: 101;
     display: none;
+    cursor: pointer;
+}
+.tooltipIcon {
+    cursor: pointer;
 }
 

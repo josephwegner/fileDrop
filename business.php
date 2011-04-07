@@ -1,8 +1,5 @@
 <?php require_once("config/connect.php"); ?>
 <!DOCTYPE html>
-
-<html>
-<head>
 <?php
 
 
@@ -12,7 +9,7 @@
 		$page = 1;
 
 
-	
+
 	$gid = $_SESSION['gid'];
 
 	$sql = "SELECT files.*, sub.group_id FROM files, ";
@@ -30,7 +27,9 @@
 
 	$group = $group_p['name'];
 
-	$num =  mysql_num_rows($data);
+    $sql = "SELECT `id` FROM files WHERE `is_downloaded`=0";
+    $numNonDownloaded = mysql_query($sql);
+	$num =  mysql_num_rows($numNonDownloaded);
 	$offset = ($page - 1) * 20;
 
 	while($offset > $num) {
@@ -49,11 +48,17 @@
 
 
 	?>
+<html>
+<head>
+
 <title>File List</title>
 <link rel="stylesheet" type="text/css" href="main.css" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="config/infoBox.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+
+    var aboutUs = new infoBox("aboutus", "http://www.wegnerdesign.com", [ "fRight" ]);
 
 	$("#overlay").click(hideLightbox);
 
@@ -118,14 +123,15 @@ function newPage(incre) {
 		success: function(msg) {
 			$("#logSlide").html(msg);
 			width = $("#logSlideHold").width();
-		
-			$("#logSlide").show();
-            toggleDownloaded();
-			$("#log2").animate({'margin-left': (-1 * width)}, 300, function() {
-				$("#log2").html($("#logSlide").html());
-				$("#log2").css('margin-left', '0px');
+		    $('html, body').animate({scrollTop: '0'}, 100, function() {
+                $("#logSlide").show();
+                toggleDownloaded();
+                $("#log2").animate({'margin-left': (-1 * width)}, 300, function() {
+                    $("#log2").html($("#logSlide").html());
+                    $("#log2").css('margin-left', '0px');
 
-			});
+                });
+            });
 		}
 	});
 }
@@ -251,8 +257,10 @@ function toggleDownloaded() {
 				?>
 				<div class="logItem
 				<?php
-					if($r_is_downloaded)
+					if($r_is_downloaded) {
 						echo " busDown";
+                        $cur--;
+                    }
 				?>">
 					<span class="fLeft"><img id="<?php echo $r_id;?>" class="ex" src="images/delete.png" /><?php echo $r_file_name;?></span>
 					<span class="fRight"><?php echo $txtSize;?>
