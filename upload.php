@@ -1,9 +1,11 @@
 <?php
+//session_id($_GET['SESS']);
+//session_start();
+require_once("config/connect.php");
 
-require_once("config/config.php");
-require_once("config/phpFuncts.php");
+$gid = $_SESSION['gid'];
 
-$path = $uploadDir;//Uses directory from config.php
+$path = $uploadDir . strval($gid) ."/";//Uses directory from config.php
 
 $name = sanitizeString(basename($_FILES['uploadfile']['name']));//grap file name
 $spec_name = strip_tags(URLDecode($name));//Format how the SQL will see it. 

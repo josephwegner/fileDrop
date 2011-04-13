@@ -7,13 +7,27 @@
 	else
 		$page = 1;
 
+    if(isset($_GET['filename']) && !empty($_GET['filename'])) {
+        $file = sanitizeString($_GET['filename']);
+    }
 
+    if(isset($_GET['customer']) && !empty($_GET['customer'])) {
+        $customer = sanitizeString($_GET['customer']);
+    }
 
 	$gid = $_SESSION['gid'];
 
-	$sql = "SELECT files.*, sub.group_id FROM files, ";
-    $sql .= "(SELECT MAX(`upload_date`) AS gpOrder, `group_id` FROM files ";
+	$sql = "SELECT files.*, sub.group_id, sub.name FROM files, ";
+    $sql .= "(SELECT MAX(`upload_date`) AS gpOrder, `group_id`, `name` FROM files ";
     $sql .= "GROUP BY `group_id`) AS sub WHERE sub.group_id=files.group_id";
+
+    if(isset($file)) {
+        $sql .= " AND files.file_name LIKE '%".$file."%'";
+    }
+    if(isset($customer)) {
+        $sql .= " AND sub.name LIKE '%".$customer."%'";
+    }
+
     $sql .= " ORDER BY sub.gpOrder DESC, files.upload_date DESC";
 
 	$data = mysql_query($sql);//Get current groups files
@@ -53,11 +67,13 @@
 <title>File List</title>
 <link rel="stylesheet" type="text/css" href="main.css" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="config/jsFuncts.js"></script>
 <script type="text/javascript" src="config/infoBox.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 
     var aboutUs = new infoBox("aboutus", "http://www.wegnerdesign.com", [ "fRight" ]);
+    handlePreviews();
 
 	$("#overlay").click(hideLightbox);
 
@@ -147,7 +163,7 @@ function prepImage(id, name) {
 		if($("#loader").is(":visible")) {
 			$.ajax({
 				type: "POST",
-				url: "ajaxPreview.php",
+				url: "ajaxPreview.php?id=" + id,
 				data: {"name": name},
 				success: function(msg) {
 					lightbox(id);
@@ -200,6 +216,16 @@ function toggleDownloaded() {
     }
 
 }
+function filter() {
+    file = $("input#filename:not(.preview)").val();
+    customer = $("input#customer:not(.preview)").val();
+
+    file = (file == undefined) ? "" : file;
+    customer = (customer == undefined) ? "" : customer;
+
+    url = "index.php?filename=" + escape(file) + "&customer=" + escape(customer);
+    window.location = url;
+}
 </script>
 
 </head>
@@ -216,6 +242,11 @@ function toggleDownloaded() {
 	<div id="header2">File List - <?php echo $group;?></div>
     <div id="options">
         Show Downloaded Files <input type="checkbox" id="showHidden" onClick="javascript:toggleDownloaded();" />
+
+        <input class="preview filter" id="customer" value="Customer" />
+        <input class="preview filter" id="filename" value="File Name" />
+        <input type="submit" value="Filter" onClick="filter();" />
+
     </div>
 	<div id="logSlideHold">
 		<div id="logHolder">

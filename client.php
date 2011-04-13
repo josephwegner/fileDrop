@@ -125,7 +125,7 @@ function newPage(incre) {
 	});
 }
 function downloadFile(id) {
-	$("iframe#fram").attr('src', 'download.php?id=' + id);
+	$("iframe#fram").attr('src', 'download.php?<?php echo htmlspecialchars(SID); ?>&id=' + id);
 	//The iframe will load download.php.  Download.php has headers that force
 	//no cacheing as well as forcing a client download.
 	//The actual data in download.php is a plaintext version of the file you are requesting

@@ -6,7 +6,8 @@ $sqlDB = "ftp"; //Name of the database you will be using
 
 $saltKey = "SecretKey"; //A random string of characters used to salt passwords.
 
-$uploadDir = "/var/uploads/"; //Directory that files will be uploaded to.  This should be from your SYSTEM's root directory -- NOT the webserver root.
+$uploadDir = "/var/uploads/"; //Directory that files will be uploaded to.  This should be from your SYSTEM's root directory
+$uploadDir_Web = "../../uploads/";  //Same as above, but from your WEB SERVER's root directory.
 
 
 $os = "windows"; //What operating system is fileDrop running on?  Values can be: windows, linux

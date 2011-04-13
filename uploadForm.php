@@ -52,7 +52,7 @@ $(document).ready(function() {
 		handleIE();
 	} else {
 		$("#swfupload-control").swfupload({
-			upload_url: "upload.php",
+			upload_url: "upload.php?<?php echo htmlspecialchars(SID); ?>",
 			file_post_name: "uploadfile",
 			file_size_limit : "4096 MB",//4GB
 			flash_url : "flash/swfupload.swf",
@@ -108,7 +108,9 @@ $(document).ready(function() {
 			});
 		});
 	$("#swfupload-control").bind('uploadSuccess', function(del, msg, err) {
-		console.log(msg);
+        //console.log(del);
+		//console.log(msg);
+        //console.log("Res" + err);
 	});	
 });
 function uploadFinished() {
@@ -125,7 +127,7 @@ function deleteItem(image) {
 
 	swfu.cancelUpload(id);
 
-	$("#" + id).slideUp(100);
+	$("#" + id).slideUp(100,function() { $(this).remove(); });;
 }
 function listFile(event, file) {
 	var id = file.id;
@@ -149,12 +151,43 @@ function listFile(event, file) {
 	if($("#log").html() == "No Files are Selected")
 		$("#log").html("");//if #log is empty
 
-	var html = "<div id='" + id + "' class='logItem' style='height: 15px;'>";
+    //begin error checking
+    var errCheck = "noerror";
+
+   if(file.size > (4 * gb)) {
+        errCheck =  "File too Large"
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "ajaxUpload.php",
+        data: { "check": 1, "name": file.name },
+        async: false,
+        error: function(jq, stat, msg) {
+            errCheck =  msg;
+        }
+    });
+
+    //End error checking
+
+    if(errCheck == "noerror") {
+	    var html = "<div id='" + id + "' class='logItem' style='height: 15px;'>";
+    } else {
+        var html = "<div id='" + id + "' class='logItem failItem' style='height: 15px;'>";
+    }
 	html += "<div class='progress'></div><span class='logLabel'>";
 	html += "<img onClick='deleteItem(this);' class='ex' src='images/delete.png' />" + name + " --- " + txtSize + "</span>";
 	$("#log").append(html);//Maybe I should slideDown this
-}
 
+    if(errCheck != "noerror") {
+        $(".logItem").last().data("err", errCheck);
+    }
+}
+function errorCheck(file, callback) {
+    var gb = 1073741824;
+
+
+}
 function sendData(file, size) {
 	var custom = $("#customContact").attr("checked");
 	var name = $("#name").val();
@@ -172,8 +205,8 @@ function sendData(file, size) {
 		data: {"name": name, "email": email, "phone": phone, "user": user,
 			 "group": group, "detail": details, "os": os, "revision": revision,
 			 "file": file, "size": size },
-		success: function(msg) { console.log(msg); },//debug.  Needs new handle.
-		error: function(msg) { console.log(msg); } //debug.  Needs new handle.
+		success: function(msg) { },//debug.  Needs new handle.
+		error: function(msg) { } //debug.  Needs new handle.
 	});
 
 }
@@ -255,13 +288,21 @@ function showMenu() {
 	swfu = $.swfupload.getInstance("#swfupload-control");
 	stats = swfu.getStats();
 
-	if(stats.files_queued > 0) {	
+	if(stats.files_queued > 0) {
+        if($(".failItem").size() > 0) {
+            var msg = "Can not upload until all errors are resolved.\n";
+            $(".failItem").each(function() {
+                msg += "-" + $(this).data("err") + "\n";
+            })
+            alert(msg);
+        } else {
 
-		$("#menuDetails").children("input").val("");
-		$("#details").val("");
-		$("#menuDetails").css('margin-left', '0px');	
+		    $("#menuDetails").children("input").val("");
+		    $("#details").val("");
+		    $("#menuDetails").css('margin-left', '0px');
 
-		$("#menu").slideDown(300);
+		    $("#menu").slideDown(300);
+        }
 	}
 }
 </script>
@@ -306,6 +347,6 @@ function showMenu() {
 	<div id="swfupload-control"></div>
 	<div id="log">No Files are Selected</div>
 	</div>
-<?php include 'footer.php'; ?>
+<?php include 'footer.php'; session_write_close(); ?>
 </body>
 </html>

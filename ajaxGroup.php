@@ -34,6 +34,9 @@ mysql_query($sql); //Create group
 
 $group_id = mysql_insert_id(); //Get Group ID
 
+$dir = $uploadDir_Web.$group_id;
+mkdir($dir);//Create directory to hold group's files.
+
 $sql = "INSERT INTO users (`user`, `password`, `group_id`, `can_download`, `phone`, `email`, `name`";
 $sql .= ") VALUES (";
 $sql .="'".$a_user."', '".$encoded."', ".$group_id.", 1, '".$a_phone."', '".$a_email."', '".$a_name."')";

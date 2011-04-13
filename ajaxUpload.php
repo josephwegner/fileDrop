@@ -2,18 +2,35 @@
 	require_once("config/connect.php");
 	require_once("config/imagine.php");
 
+    $group = $_SESSION['gid'];
+
+    if(isset($_POST['check'])) {
+        if(post('check')) {
+
+            $name = sanitizeString(post('name'));
+
+            $sql = "SELECT `id` FROM files WHERE `group_id`=".$group." AND `file_name`='".$name."'";
+            
+            $check = mysql_query($sql);
+
+            if(mysql_num_rows($check) > 0) {
+                error("File already exists in this group.");
+            }
+        }
+        die();
+    } 
+
 	$name = sanitizeString(post('name'), true);
 	$email = post('email');
 	$phone = post('phone');
 	$user = post('user');
-	$group = post('group');
 	$detail = sanitizeString(post('detail'), true);
 	$os = sanitizeString(post('os'));
 	$revision = post('revision');
 	$file = sanitizeString(post('file'));
 	$size = post('size');//Grab Vars
 
-	validateInputs($email, $phone, $user, $group, $revision, $size);
+	validateInputs($email, $phone, $user, $revision, $size);
 
 	$sql = "SELECT `name` FROM users WHERE `id`=".$user;
 	$dat = mysql_query($sql);//Get user name of currently logged on user
@@ -49,12 +66,10 @@ function stringify($data, $end = false) {
 	return $fini;
 }
 
-function validateInputs($email, $phone, $user, $group, $revision, $size) {
+function validateInputs($email, $phone, $user, $revision, $size) {
 	$passed = true;
 
 	$passed = is_numeric($user) ? $passed : false;
-
-	$passed = is_numeric($group) ? $passed : false;
 
 	$passed = is_numeric($revision) ? $passed : false;
 	

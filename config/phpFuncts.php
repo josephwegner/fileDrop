@@ -48,14 +48,17 @@ function verifyPhone($number) {
 		return false;
 }
 function adminPage() {
-    if(!isset($_SESSION['is_admin'])) {
-       goHome();
-    } else {
-         if(!$_SESSION['is_admin']) {
-            goHome();
+    if(!isAdmin()) {
+        goHome();
+    }
+}
+function isAdmin() {
+    if(isset($_SESSION['is_admin'])) {
+        if($_SESSION['is_admin']) {
+            return true;
         }
     }
-
+    return false;
 }
 function goHome() {
     header("Location: index.php");
