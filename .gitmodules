@@ -1,0 +1,3 @@
+[submodule "node/packages/node-sqlite3"]
+	path = node/packages/node-sqlite3
+	url = git://github.com/developmentseed/node-sqlite3.git
