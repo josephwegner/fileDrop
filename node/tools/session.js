@@ -15,9 +15,12 @@ var start = function(conn) {
         
         if(session.expires < Date()) {//If session is expired
             delete sessions[SESSID];
-            return newSession(res);
+            return newSession(conn.res);
         } else {
-            session.expires = Date() + 30;//Reset session expiration
+            var dt = new Date();
+            dt.setMinutes(dt.getMinutes() + 30);
+            
+            session.expires = dt;//Reset session expiration
             return sessions[SESSID];
         }
     } else {
@@ -38,9 +41,12 @@ function newSession(res) {
         return newSession(res);//Avoid duplicate sessions
     }
     
+    var dt = new Date();
+    dt.setMinutes(dt.getMinutes() + 30);
+    
     var session = { //Session literal object
                     SESSID: SESSID,
-                    expires: Date() + 30
+                    expires: dt
                     };
     sessions[SESSID] = session;//Store it for future requests
     

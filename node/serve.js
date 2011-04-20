@@ -4,25 +4,27 @@ require('./tools/require.js');
 
 /****GLOBALS*****/
 var ACTIONS = buildActionArray();
-var SQL_CLIENT = null;
+SQL_CLIENT = null;
 /****************/
+
 
 server = http.createServer(function(req, res) {
     
     var data = "";
     
-    request.on("data", function(chunk) {
+    req.on("data", function(chunk) {
         data += chunk;
     });
     
-    request.on("end"), function() {
+    req.on("end", function() {
         var json = query.parse(data);
         
         passRequest({
-                req: req,
-                res: res,
-                post: json
-                });
+            req: req,
+            res: res,
+            post: json
+        });
+    });
 
 });
 server.listen(1234);
@@ -48,9 +50,9 @@ function passRequest(conn) {
             
         } else {//If it's not an action or a resource, send a 404 error doc
             console.log("File Not Available - " + urlParts.pathname);
-            res.writeHead(404, {"Content-Type": "text/html"});
-            res.write("That page does not exist!");
-            res.end();
+            conn.res.writeHead(404, {"Content-Type": "text/html"});
+            conn.res.write("That page does not exist!");
+            conn.res.end();
         }
     }   
 }
@@ -70,6 +72,10 @@ function getResource(urlParts) {
         
     case ".css":
         folder = __dirname + "/resources/css";
+        break;
+        
+    case ".png":
+        folder = __dirname + "/resources/images";
         break;
         
     default:
@@ -93,6 +99,8 @@ function buildActionArray() {
     //actions['page'] = function
     actions['/login'] = frontend.login;
     actions['/install'] = install.makeDB;
+    actions['/ajaxLogin'] = backend.login;
+    actions['/ajaxRegister'] = backend.register;
     
     return actions;
 }

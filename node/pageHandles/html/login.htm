@@ -38,10 +38,15 @@ function login() {
 
 	$.ajax({
 		type: "POST",
-		url: "ajaxLogin.php",
+		url: "ajaxLogin",
 		data: {"user": user, "pass": pass },
-		success: function(msg) { $("#loginForm").submit(); },
-		error: function(err, err2, err3) { alert("Invalid Login"); } //Need to handle this better
+		success: function(msg) {
+            var resp = $.parseJSON(msg);
+
+            if(resp.err) alert(resp.err);
+
+            if(resp.passed) $("#loginForm").submit();
+        }
 	});
 	return false;
 }
@@ -64,9 +69,10 @@ function register() {
 
 	$.ajax({
 		type: "POST",
-		url: "ajaxRegister.php",
+		url: "ajaxRegister",
 		data: {"user": user, "pass": pass, "name": name, "email": email, "phone": phone, "code": code },
 		success: function(msg) {
+            console.log(msg);
 			$("#menu").slideUp(500);	
 		},
 		error: function(err, err2, err3) {

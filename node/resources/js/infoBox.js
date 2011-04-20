@@ -10,7 +10,7 @@ function infoBox(id, link, classes) {
 
     html = $(select).html();//Get the data for the infoBox
 
-    newHTML = "<img src='images/info.png' id='" + id + "' />";//Build image
+    newHTML = "<img src='info.png' id='" + id + "' />";//Build image
 
     $(select).replaceWith(newHTML);
 
