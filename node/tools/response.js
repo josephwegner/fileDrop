@@ -11,6 +11,9 @@ var sendGeneric = function sendGeneric(res, data) {//Allows any type of content
     res.end();
 };
 
+//Borrwed some of this code from Cloud9IDE
+//Thanks so much!
+//www.cloud9ide.com
 var parseHTML = function(data, replacements) {
        return data.replace(/<%(.+?)%>/g, function(str, m) {
             return JSON.stringify(replacements[m] || "");

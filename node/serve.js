@@ -98,6 +98,7 @@ function buildActionArray() {
     //Format
     //actions['page'] = function
     actions['/login'] = frontend.login;
+    actions['/index'] = frontend.index;
     actions['/install'] = install.makeDB;
     actions['/ajaxLogin'] = backend.login;
     actions['/ajaxRegister'] = backend.register;

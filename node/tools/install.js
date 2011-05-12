@@ -8,7 +8,7 @@ var makeDB = function(conn) {
             Client.exec(data, function(err) {//execute import
                 if(err) console.log(err);
                 
-                resp.sendHTML("Installation Complete.");
+                resp.sendHTML(conn.res, "Installation Complete.");
             });
             
     });

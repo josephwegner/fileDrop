@@ -17,7 +17,7 @@ require.paths.unshift(__dirname);
 require.paths.unshift(__dirname + "/../packages");
 
 //Require Third-Party Modules//
-sqLite = require('node-sqlite3');
+sqLite = require('node-sqlite3');//https://github.com/developmentseed/node-sqlite3/wiki/API
 
 
 //Require Modules//

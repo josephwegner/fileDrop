@@ -1,12 +1,20 @@
-var sessions = [];//Blank object literal
+    var sessions = [];//Blank object literal
 
-var start = function(conn) {
+    var start = function(conn) {
     
     var cookies = {};
-    conn.req.headers.cookie.split(';').forEach(function( cookie ) {
-        var parts = cookie.split('=');
-        cookies[ parts[ 0 ].trim() ] = ( parts[ 1 ] || '' ).trim();
-    });//Grab all cookies, and parse them into properties of the cookies object
+    
+    if(typeof conn.req.headers.cookie !== "undefined") {
+        
+        conn.req.headers.cookie.split(';').forEach(function( cookie ) {
+            var parts = cookie.split('=');
+            cookies[ parts[ 0 ].trim() ] = ( parts[ 1 ] || '' ).trim();
+        });//Grab all cookies, and parse them into properties of the cookies object
+    
+        
+    } else {
+        cookies['SESSID'] = 0;
+    }
     
     var SESSID = cookies['SESSID'];//Get current SESSID
     
@@ -46,7 +54,8 @@ function newSession(res) {
     
     var session = { //Session literal object
                     SESSID: SESSID,
-                    expires: dt
+                    expires: dt,
+                    page: 1
                     };
     sessions[SESSID] = session;//Store it for future requests
     

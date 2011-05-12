@@ -8,10 +8,10 @@ var login = function(conn) {
     var pass = conn.post.pass;
     
     md5.update(options.salt);
-    var salt = md5.digest();
+    var salt = md5.digest('hex');
     md5 = hash.createHash('md5');
     md5.update(salt + pass);
-    var encode_pass = md5.digest();
+    var encode_pass = md5.digest('hex');
     
     SqlBuilder.addFields(["password", "id", "group_id"]);
     SqlBuilder.table = "users";
@@ -52,7 +52,6 @@ var register = function(conn) {
       
     var SqlBuilder = new sql.Builder();
     var md5 = hash.createHash('md5');
-    
     var json;
       
       
@@ -78,10 +77,10 @@ var register = function(conn) {
     }
     
     md5.update(options.salt);
-    var salt = md5.digest();
+    var salt = md5.digest('hex');
     md5 = hash.createHash('md5');
     md5.update(salt + pass);
-    var encode_pass = md5.digest();
+    var encode_pass = md5.digest('hex');
     
     SqlBuilder.addFields(["id"]);
     SqlBuilder.table = "users";
@@ -97,9 +96,9 @@ var register = function(conn) {
         }
         
         SqlBuilder.clearQuery();
-        SqlBuilder.addFields(["id", "open_register"]);
+        SqlBuilder.addFields(["id"]);
         SqlBuilder.table = "groups";
-        SqlBuilder.where = "`code`='" + code + "'";
+        SqlBuilder.where = "`code`='" + code + "' AND `open_register`=1";
         query = SqlBuilder.select();
         
         SQL_CLIENT.get(query, function(err, row) {
@@ -110,7 +109,7 @@ var register = function(conn) {
                resp.sendGeneric(conn.res, json);
                return false;
            }
-           
+           console.log(row);
            SqlBuilder.clearQuery();
            SqlBuilder.table = "users";
            query = SqlBuilder.insert([
@@ -119,12 +118,14 @@ var register = function(conn) {
                  {field: "name", value: name},
                  {field: "email", value: email},
                  {field: "phone", value: phone},
-                 {field: "group_id", value: row.group_id}
+                 {field: "group_id", value: row.id},
+                 {field: "can_download", value: "1"}
            ]);
            
            console.log("QUERY:" + query);
            
            SQL_CLIENT.run(query, function(lastId) {
+               console.log("INSERTED USER WITH ID:" + lastId);
                resp.sendGeneric(conn.res, JSON.stringify({"passed": true}));
            });
            

@@ -1,3 +1,11 @@
+var isLoggedIn = function(conn, sess) {
+    if(typeof sess.user_id === "undefined") {
+           frontend.login(conn)
+           return false;
+    }
+    
+    return true;
+}
 var sanitizeString = function(pre, allowSpaces) {
     if(typeof allowSpaces === "undefined") {
         allowSpaces = false;   
@@ -78,6 +86,7 @@ var verifyInputs = function(items) {
  * Build Exports Object
  * *************/
  
+ exports.isLoggedIn = isLoggedIn;
  exports.sanitizeString = sanitizeString;
  exports.verifyEmail = verifyEmail;
  exports.verifyPhone = verifyPhone;

@@ -1,0 +1,64 @@
+<?php
+    		$cur = 1;
+			if(mysql_num_rows($data) < 1) { ?>
+			No Files are Currently Available<br>
+			<?php } else {
+				while(($row = mysql_fetch_array($data)) && $cur <= 20) {
+					extract($row, EXTR_PREFIX_ALL, "r");//Break array into seperate vars
+					$revision = $r_is_revision ? "Yes" : "No";
+					$tm = strtotime($r_upload_date);//Convert timestamp to readable format
+					$strtm = date("g:i A \o\\n n/j/y", $tm);
+					
+					if($r_file_size >= $gb) {//Always get the right $r_file_size
+						$size = round($r_file_size/$gb, 2);
+						$txtSize = $size." GB";
+					} else if($r_file_size >= $mb) {
+						$size = round($r_file_size/$mb, 2);
+						$txtSize = $size." MB";
+					} else {
+						$size = round($r_file_size/$kb, 2);
+						$txtSize = $size." KB";
+					}
+				?>
+				<div class="logItem<%downloaded%>">
+					<span class="fLeft"><img id="<%id%>" class="ex" src="images/delete.png" /><%filename%></span>
+					<span class="fRight"><%filesize%>
+					<a class="spanLink nobubble" href="javascript:downloadFile(<%id%>)">Download</a>
+					<%preview%>
+					</span>
+					<br>
+					<div class="extra">
+						<div class="moreInfo">
+							<b>Contact Name:</b> <%c_name%><br>
+							<b>Email:</b> <%c_email%><br>
+							<b>Phone:</b> <%c_phone%><br>
+						</div>
+						<div class="moreInfo">
+							<b>Uploaded By:</b> <%upload_by%><br>
+							<b>Time:</b> <%upload_time%><br>
+						</div>
+						<div style="margin-right: 10px; padding-right: 10px; border-right: 1px solid #445566;" class="moreInfo">
+							<b>OS:</b> <%os%><br>
+							<b>Is Revision:</b></b> <%revision%><br>
+						</div>
+						<div class="moreInfo">
+							<%details%>
+						</div>
+						<div class="clearboth"></div>
+					</div>
+				</div>
+				
+			<?php $cur++;	}
+			}
+			echo "<center>";
+			if($offset > 0) 
+				echo "<a style='margin-right: 5px' class='spanLink nobubble' href='javascript:newPage(-1);'><--</a>";
+			
+			$pgs = ceil($num / 20);
+			echo "Page ".$page." / ".$pgs;
+			if($offset < ($num - 20))
+				echo "<a style='margin-left: 5px' class='spanLink nobubble' href='javascript:newPage(1);'>--></a>";
+			
+			?>
+			</center>
+			</div>
